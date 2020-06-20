@@ -22,11 +22,11 @@ function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
     console.log("onCapture...")
     console.log(targetDir);
     console.log(currentScreen.size);
-    getMainSource(desktopCapturer, targetDir,currentScreen.size, beginPoint, endPoint)
+    getMainSource(desktopCapturer, targetDir,currentScreen, beginPoint, endPoint)
   }
   
-  function getMainSource(desktopCapturer,targetDir, screenSize, beginPoint, endPoint) {
-    const options = { types: ['screen'], thumbnailSize: screenSize}
+  function getMainSource(desktopCapturer,targetDir, currentScreen, beginPoint, endPoint) {
+    const options = { types: ['screen'], thumbnailSize: currentScreen.size}
     console.log("getMainSource 2")
     console.log(desktopCapturer)
     desktopCapturer.getSources(options)
@@ -34,6 +34,7 @@ function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
             console.log("in here...")
             console.log(sources)
             const png = sources[0].thumbnail.crop({x:beginPoint.x,y:beginPoint.y,width:200,height:200}).toPNG()
+            //const png = currentScreen.thumbnail.crop({x:beginPoint.x,y:beginPoint.y,width:200,height:200}).toPNG()
             //const png = sources[0].thumbnail.toPNG()
             console.log(png);
             const filePath = path.join(targetDir, new Date() + '.png')
