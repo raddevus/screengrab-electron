@@ -18,13 +18,11 @@ function onTest(evt, targetDir,other) {
     alert("yack!")
 }
 
-function onCapture(evt, targetDir,screenSize,beginPoint,endPoint) {
-    console.log(this.beginPoint)
-    console.log(this.endPoint)
+function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
     console.log("onCapture...")
     console.log(targetDir);
-    console.log(screenSize);
-    getMainSource(desktopCapturer, targetDir,screenSize, beginPoint, endPoint)
+    console.log(currentScreen.size);
+    getMainSource(desktopCapturer, targetDir,currentScreen.size, beginPoint, endPoint)
   }
   
   function getMainSource(desktopCapturer,targetDir, screenSize, beginPoint, endPoint) {

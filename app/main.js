@@ -2,6 +2,7 @@ const {app, BrowserWindow, globalShortcut, ipcMain, screen, ipcRenderer: ipc} = 
 let mainWindow = null
 let beginPoint = null
 let endPoint = null
+let currentScreen = null
 
 app.on('ready', () => {
     console.log('Hello from Electron');
@@ -26,7 +27,8 @@ app.on('ready', () => {
         console.log("shortcut fired...")
         //mainWindow.send('capture')
         screenSize = screen.getPrimaryDisplay().workAreaSize
-        mainWindow.webContents.send('capture', app.getPath('pictures'),screenSize,beginPoint,endPoint)
+        console.log(currentScreen)
+        mainWindow.webContents.send('capture', app.getPath('pictures'),currentScreen,beginPoint,endPoint)
         
         //console.log(screen)
         
@@ -35,6 +37,7 @@ app.on('ready', () => {
     globalShortcut.register('CommandOrControl+Shift+A', () => {
         beginPoint = getScreenPoint();
         console.log(beginPoint);
+        currentScreen = getCurrentScreen()
     })
 
     globalShortcut.register('CommandOrControl+Shift+Z', () => {
@@ -63,4 +66,8 @@ function getScreenPoint(){
     var point = screen.getCursorScreenPoint();
     console.log(point);
     return point;
+}
+
+function getCurrentScreen(){
+    return screen.getDisplayNearestPoint(beginPoint);
 }
