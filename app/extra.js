@@ -41,7 +41,9 @@ function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
               xOffset = currentScreen.bounds.width;
             }
             else{ screenChoice = 0; console.log("screenChoice: " + screenChoice);}
-            const png = sources[screenChoice].thumbnail.crop({x:Math.abs(beginPoint.x-xOffset),y:beginPoint.y,width:200,height:200}).toPNG()
+            let outputWidth = endPoint.x - beginPoint.x;
+            let outputHeight = endPoint.y - beginPoint.y;
+            const png = sources[screenChoice].thumbnail.crop({x:Math.abs(beginPoint.x-xOffset),y:beginPoint.y,width:outputWidth,height:outputHeight}).toPNG()
             //const png = currentScreen.thumbnail.crop({x:beginPoint.x,y:beginPoint.y,width:200,height:200}).toPNG()
             //const png = sources[0].thumbnail.toPNG()
             console.log(png);
