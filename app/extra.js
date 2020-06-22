@@ -41,9 +41,10 @@ function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
               xOffset = currentScreen.bounds.width;
             }
             else{ screenChoice = 0; console.log("screenChoice: " + screenChoice);}
-            let outputWidth = endPoint.x - beginPoint.x;
-            let outputHeight = endPoint.y - beginPoint.y;
-            const png = sources[screenChoice].thumbnail.crop({x:Math.abs(beginPoint.x-xOffset),y:beginPoint.y,width:outputWidth,height:outputHeight}).toPNG()
+            let outputWidth = Math.abs(endPoint.x - beginPoint.x);
+            let outputHeight = Math.abs(endPoint.y - beginPoint.y);
+            let finalBeginPoint = calcTrueBeginPoint(beginPoint,endPoint);
+            const png = sources[screenChoice].thumbnail.crop({x:Math.abs(finalBeginPoint.x-xOffset),y:finalBeginPoint.y,width:outputWidth,height:outputHeight}).toPNG()
             //const png = currentScreen.thumbnail.crop({x:beginPoint.x,y:beginPoint.y,width:200,height:200}).toPNG()
             //const png = sources[0].thumbnail.toPNG()
             console.log(png);
@@ -52,6 +53,14 @@ function onCapture(evt, targetDir,currentScreen,beginPoint,endPoint) {
         })
       
     console.log("getmainSource 3")
+  }
+
+  function calcTrueBeginPoint(beginPoint, endPoint){
+      // ## the user can move in any direction to 
+      // draw the bounding box - this insures the values are correct
+      let outX = (beginPoint.x < endPoint.x) ? beginPoint.x : endPoint.x;
+      let outY = (beginPoint.y < endPoint.y) ? beginPoint.y : endPoint.y;
+      return {x:outX,y:outY};
   }
   
   function writeScreenshot(png, filePath) {
